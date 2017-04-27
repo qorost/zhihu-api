@@ -2,28 +2,39 @@
 
 ### 目标
 
-本着学习的目的，试图构建一个更加简洁、优雅的、Pythonic 的知乎 API。
+试图构建一个更加简洁、优雅的、Pythonic 的知乎 API。
 
+### 使用场景
+* 如果你想自动给你喜欢的人点赞
+* 如果你想批量关注用户
+* 如果你想批量发送信息
+* 如果你想构建一个自己的知乎客户端
+* 如果你想...
+
+如果你有以上需求，那么 zhihu-api 项目可能适合你，不过你要记住，如果是批量操作，你需要有频次地操作，否则容易被知乎判断为机器人。
 
 ## 前置条件
 
 * Python3.x
-* Requests2
+* Requests
 * BeautifulSoup4
 
 ## 安装
 
 ```python
-git@github.com:lzjun567/zhihu-api.git
-cd  zhihu-api
-pip install -r requirement.txt
+pip install git+git://github.com/lzjun567/zhihu-api
+
+# 升级到最新的代码，附加参数  --upgrade
+# 推荐
+pip install git+git://github.com/lzjun567/zhihu-api --upgrade
 ```
 
-## API使用
+
+## API
 
 ### 用户个人公开信息
 ```
->>> from zhihu import Zhihu
+>>> from zhihu.zhihu import Zhihu
 >>> zhihu = Zhihu()
 >>> zhihu.user(profile_url="https://www.zhihu.com/people/xiaoxiaodouzi")
 
@@ -52,22 +63,6 @@ pip install -r requirement.txt
 ```python
 >>> zhihu.send_message("你好,问候3", user_id="1da75b85900e00adb072e91c56fd9149")
 
-{
-    'sender': {'avatar_url_template': 'https://pic3.zhimg.com/ca6bf4bb82d9cf152b618edcbda01606_{size}.jpg', 'badge': [],
-               'name': 'zhijun liu', 'is_advertiser': False,
-               'url': 'http://www.zhihu.com/api/v4/people/ba286d02fd9701a446d68ba85d0755c0', 'url_token': 'zhijun-liu',
-               'user_type': 'people', 'headline': '公众号：Python之禅',
-               'avatar_url': 'https://pic3.zhimg.com/ca6bf4bb82d9cf152b618edcbda01606_is.jpg', 'is_org': False,
-               'gender': 1, 'type': 'people', 'id': 'ba286d02fd9701a446d68ba85d0755c0'}, 'url': '', 'has_read': False,
-    'content': '你好,问候1',
-    'receiver': {'avatar_url_template': 'https://pic1.zhimg.com/v2-ca13758626bd7367febde704c66249ec_{size}.jpg',
-                 'badge': [], 'name': '我是小号', 'is_advertiser': False,
-                 'url': 'http://www.zhihu.com/api/v4/people/1da75b85900e00adb072e91c56fd9149',
-                 'url_token': 'xiaoxiaodouzi', 'user_type': 'people', 'headline': '程序员',
-                 'avatar_url': 'https://pic1.zhimg.com/v2-ca13758626bd7367febde704c66249ec_is.jpg', 'is_org': False,
-                 'gender': -1, 'type': 'people', 'id': '1da75b85900e00adb072e91c56fd9149'}, 'created_time': 1492318772,
-    'type': 'message', 'id': '2143862420'}
-
 # 还支持 user_slug
 >>> zhihu.send_message("你好,问候2", user_slug="xiaoxiaodouzi")
 
@@ -75,16 +70,48 @@ pip install -r requirement.txt
 >>> zhihu.zhihu.send_message("你好,问候1", profile_url="https://www.zhihu.com/people/xiaoxiaodouzi")
 ```
 
+### 关注用户
+```
+>>> zhihu.follow(profile_url="https://www.zhihu.com/people/gao-yu-dong-41")
+{"follower_count": 6}
+
+>>> zhihu.follow(user_slug="xiaoxiaodouzi")
+{"follower_count": 6}
+```
+
+### 点赞
+```
+>>> from zhihu import Answer
+>>> data = Answer(id=14005147).vote_up()
+>>> data
+>>> {"voting": 1, "voteup_count": 314}
+
+>>> data = Answer(url="https://www.zhihu.com/question/19761434/answer/14005147").vote_up()
+```
+
+### 反对
+vote_down
+
+### 中立
+vote_neutral
+
+
+
 ## TODO
 
-* 关注
 * 文章点赞
 * ...
 
 ## 贡献者
-欢迎 PR, 所有贡献者都将出现在这里
+欢迎 PR, 所有贡献者都将出现在这里，排名部分先后
+
+* [@BigBorg](https://github.com/BigBorg)
+* [@xiaowenlong100](https://github.com/xiaowenlong100)
+* [chenghengchao](https://github.com/chenghengchao)
+* [MaxPoon](https://github.com/MaxPoon)
 
 ## 交流
+群已经加不进，可以先加微信：lzjun567 拉你入群
 
-![群](qrcode.jpeg)
+![群](https://dn-mhke0kuv.qbox.me/30f70119cd4a840560d4.jpeg)
 
